@@ -13,3 +13,8 @@ after_success:
   - docker build -t aharpa/multi-nginx ./nginx
   - docker build -t aharpa/multi-server ./server
   - docker build -t aharpa/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push aharpa/multi-client
+  - docker push aharpa/multi-nginx
+  - docker push aharpa/multi-server
+  - docker push aharpa/multi-worker

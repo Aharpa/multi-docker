@@ -1,0 +1,15 @@
+sudo: required
+services:
+  - docker
+
+before-install:
+  - docker build -t aharpa/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true aharpa/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t aharpa/multi-client ./client
+  - docker build -t aharpa/multi-nginx ./nginx
+  - docker build -t aharpa/multi-server ./server
+  - docker build -t aharpa/multi-worker ./worker
